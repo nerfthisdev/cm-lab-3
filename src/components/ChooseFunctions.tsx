@@ -6,6 +6,7 @@ const latexList = [
   "\\int (-x^3 - x^2 + x + 3)\\,dx",
   "\\int (-2x^3 - 4x^2 + 8x - 4)\\,dx",
   "\\int (-2x^3 - 3x^2 + x + 5)\\,dx",
+  "\\int (x^4 - 2x^3 + x - 1)\\,dx",
 ];
 
 const ChooseFunctions = ({

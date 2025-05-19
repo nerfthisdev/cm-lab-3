@@ -60,7 +60,9 @@ const IntegralParams = ({
             onChange={(e) => onChangeMethod(e.target.value)}
             className="p-2 bg-gray-900 border border-gray-600 rounded text-white"
           >
-            <option value="rectangle">Прямоугольники</option>
+            <option value="rectangle_left">Прямоугольники (левые)</option>
+            <option value="rectangle_right">Прямоугольники (правые)</option>
+            <option value="rectangle_middle">Прямоугольники (средние)</option>
             <option value="trapezoid">Трапеции</option>
             <option value="simpson">Симпсона</option>
           </select>
