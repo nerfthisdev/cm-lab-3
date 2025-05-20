@@ -65,11 +65,7 @@ const IntegralCalculator = () => {
 
     const header = `\\textbf{Отчёт о вычислении интеграла}`;
     const integralLatex = `\\int_{${aNum}}^{${bNum}} f(x)\\,dx \\approx ${result.toFixed(6)},\\quad n = ${n}`;
-    const iterationLatex = iterations.map(
-      (line: string, i: number) =>
-        `\\text{${i + 1}. ${line.replace("=", " = ")}}`,
-    );
-
+    const iterationLatex = iterations.map((line) => line);
     setLatexReport([
       header,
       ...iterationLatex,
