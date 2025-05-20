@@ -5,6 +5,7 @@ import LatexRenderer from "./utils/LatexRenderer";
 import { rectangleMethod } from "../integrators/rectangle";
 import { trapezoidMethod } from "../integrators/trapezoid";
 import { simpsonMethod } from "../integrators/simpson";
+import { isFiniteInterval } from "../integrators/utils";
 
 const IntegralCalculator = () => {
   const [selectedFunction, setSelectedFunction] = useState<string | null>(null);
@@ -15,7 +16,6 @@ const IntegralCalculator = () => {
 
   const [latexReport, setLatexReport] = useState<string[]>([]);
 
-  // Выбор подходящей численной функции
   const getNumericMethod = () => {
     const [main, variant] = method.split("_");
     switch (main) {
@@ -31,7 +31,6 @@ const IntegralCalculator = () => {
     }
   };
 
-  // Строка → функция
   const parseFunction = (latex: string): ((x: number) => number) => {
     const map: Record<string, (x: number) => number> = {
       "\\int (-x^3 - x^2 - 2x + 1)\\,dx": (x) =>
@@ -41,8 +40,6 @@ const IntegralCalculator = () => {
       "\\int (-x^3 - x^2 + x + 3)\\,dx": (x) => (-1 * x) ** 3 - x ** 2 + x + 3,
       "\\int (-2x^3 - 4x^2 + 8x - 4)\\,dx": (x) =>
         -2 * x ** 3 - 4 * x ** 2 + 8 * x - 4,
-      "\\int (-2x^3 - 3x^2 + x + 5)\\,dx": (x) =>
-        -2 * x ** 3 - 3 * x ** 2 + x + 5,
       "\\int (x^4 - 2x^3 + x - 1)\\,dx": (x) => x ** 4 - 2 * x ** 3 + x - 1,
     };
     return map[latex] ?? (() => 0);
@@ -56,10 +53,16 @@ const IntegralCalculator = () => {
     const bNum = parseFloat(b);
     const epsNum = parseFloat(epsilon);
 
+    if (!isFiniteInterval(aNum, bNum)) {
+      setLatexReport([
+        "\\text{\\color{red}{Ошибка: }}\\quad a \\leq b \\quad \\text{и оба значения должны быть конечны.}",
+      ]);
+      return;
+    }
+
     const methodFunc = getNumericMethod();
     const { result, n, iterations } = methodFunc(f, aNum, bNum, epsNum);
 
-    // Latexify всё
     const header = `\\textbf{Отчёт о вычислении интеграла}`;
     const integralLatex = `\\int_{${aNum}}^{${bNum}} f(x)\\,dx \\approx ${result.toFixed(6)},\\quad n = ${n}`;
     const iterationLatex = iterations.map(
