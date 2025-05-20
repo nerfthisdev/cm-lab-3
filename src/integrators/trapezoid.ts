@@ -1,4 +1,4 @@
-import { rungeRule } from "./utils";
+import { formatNumberLatex, rungeRule } from "./utils";
 
 export function trapezoidMethod(
   f: (x: number) => number,
@@ -25,7 +25,7 @@ export function trapezoidMethod(
 
   iterations.push(`n = ${n}, I = ${I1.toFixed(6)}`);
   iterations.push(
-    `n = ${n * 2}, I = ${I2.toFixed(6)}, R = ${r.toExponential(2)}`,
+    `n = ${n * 2}, I = ${I2.toFixed(6)}, R = ${formatNumberLatex(r)}`,
   );
 
   while (r > epsilon) {
@@ -34,7 +34,7 @@ export function trapezoidMethod(
     I2 = calc(n * 2);
     r = rungeRule(I1, I2, k);
     iterations.push(
-      `n = ${n}, I = ${I2.toFixed(6)}, R = ${r.toExponential(2)}`,
+      `n = ${n}, I = ${I2.toFixed(6)}, R = ${formatNumberLatex(r)}`,
     );
   }
 
